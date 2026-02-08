@@ -1,5 +1,5 @@
 ﻿:root {
-  --bg: #070b0a;
+  --bg: #050b12;
   --panel: #0d1412;
   --line: #1f342c;
   --text: #88ffbf;
@@ -7,7 +7,10 @@
   --danger: #ff6e87;
   --command: #e4ffd3;
   --accent: #2fff9f;
-  --glow: rgba(47, 255, 159, 0.5);
+  --glow: rgba(47, 255, 159, 0.45);
+  --shell: #c8d4df;
+  --shell-dark: #95a4b2;
+  --desk: #172430;
   --font-main: "JetBrains Mono", "Cascadia Code", "Fira Code", monospace;
 }
 
@@ -20,7 +23,7 @@
   --danger: #ff9788;
   --command: #fff1d8;
   --accent: #ffb347;
-  --glow: rgba(255, 179, 71, 0.45);
+  --glow: rgba(255, 179, 71, 0.4);
 }
 
 :root[data-theme="crt"] {
@@ -32,7 +35,7 @@
   --danger: #ff8fa5;
   --command: #d3f8ff;
   --accent: #59e8ff;
-  --glow: rgba(89, 232, 255, 0.5);
+  --glow: rgba(89, 232, 255, 0.45);
 }
 
 * {
@@ -50,23 +53,23 @@ body {
   font-family: var(--font-main);
   color: var(--text);
   background:
-    radial-gradient(circle at 8% 10%, rgba(26, 87, 57, 0.35) 0%, transparent 30%),
-    radial-gradient(circle at 92% 82%, rgba(26, 87, 57, 0.25) 0%, transparent 28%),
-    linear-gradient(150deg, #040707 0%, var(--bg) 50%, #030504 100%);
-  overflow: hidden;
+    radial-gradient(circle at 12% 8%, rgba(67, 125, 201, 0.24), transparent 34%),
+    radial-gradient(circle at 80% 18%, rgba(37, 160, 113, 0.22), transparent 36%),
+    linear-gradient(170deg, #0a1018 0%, #070b11 52%, #06080d 100%);
 }
 
 .terminal-page {
   min-height: 100vh;
-  padding: 1.25rem;
+  padding: 1.2rem;
   display: grid;
   place-items: center;
   position: relative;
+  overflow: hidden;
 }
 
 .terminal-page::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
   background: repeating-linear-gradient(
@@ -76,20 +79,80 @@ body {
     transparent 2px,
     transparent 4px
   );
+  opacity: 0.3;
   mix-blend-mode: soft-light;
-  opacity: 0.4;
+}
+
+.scene-glow {
+  position: absolute;
+  width: 44vw;
+  height: 44vw;
+  border-radius: 999px;
+  filter: blur(40px);
+  opacity: 0.36;
+  pointer-events: none;
+}
+
+.scene-glow-left {
+  left: -16vw;
+  top: -18vw;
+  background: radial-gradient(circle, rgba(95, 140, 255, 0.46), transparent 62%);
+}
+
+.scene-glow-right {
+  right: -18vw;
+  bottom: -20vw;
+  background: radial-gradient(circle, rgba(47, 255, 159, 0.36), transparent 62%);
+}
+
+.workstation {
+  width: min(1080px, 100%);
+  perspective: 1200px;
+  display: grid;
+  justify-items: center;
+  z-index: 1;
+}
+
+.monitor-shell {
+  width: min(1000px, 100%);
+  border-radius: 26px;
+  padding: 0.7rem;
+  background: linear-gradient(145deg, var(--shell), var(--shell-dark));
+  box-shadow:
+    0 34px 70px rgba(0, 0, 0, 0.52),
+    0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  position: relative;
+  transform: rotateX(3deg);
+}
+
+.monitor-notch {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(13, 17, 25, 0.68);
+}
+
+.monitor-bezel {
+  border-radius: 20px;
+  padding: 0.65rem;
+  background: linear-gradient(180deg, #1a2129, #141b24);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
 }
 
 .terminal-window {
-  width: min(960px, 100%);
-  min-height: min(82vh, 740px);
+  width: 100%;
+  min-height: min(72vh, 680px);
   border: 1px solid var(--line);
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(18, 31, 26, 0.8), rgba(10, 18, 15, 0.95));
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(18, 31, 26, 0.88), rgba(10, 18, 15, 0.98));
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.6),
+    0 14px 36px rgba(0, 0, 0, 0.55),
     0 0 0 1px rgba(67, 185, 129, 0.2) inset,
-    0 0 32px var(--glow);
+    0 0 28px var(--glow);
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   position: relative;
@@ -101,7 +164,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.45) 100%);
+  background: radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.5) 100%);
 }
 
 .terminal-window.is-matrix::after {
@@ -162,7 +225,7 @@ body {
 .terminal-output {
   padding: 1rem;
   overflow-y: auto;
-  max-height: min(60vh, 560px);
+  max-height: min(53vh, 530px);
 }
 
 .line {
@@ -208,7 +271,7 @@ body {
 }
 
 .terminal-prompt input::placeholder {
-  color: rgba(136, 255, 191, 0.5);
+  color: color-mix(in oklab, var(--text) 52%, transparent);
 }
 
 .terminal-prompt input:disabled {
@@ -231,11 +294,77 @@ body {
   font-size: 0.78rem;
   padding: 0.22rem 0.6rem;
   cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .terminal-suggestions button:hover {
   color: var(--text);
   border-color: var(--accent);
+}
+
+.monitor-stand {
+  width: 172px;
+  height: 76px;
+  margin-top: -2px;
+  background: linear-gradient(180deg, #919eab, #788694);
+  border-radius: 0 0 32px 32px;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.34);
+}
+
+.monitor-stand::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -17px;
+  width: 280px;
+  height: 20px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #6c7b88, #495563);
+}
+
+.desk-surface {
+  width: min(1140px, 112vw);
+  height: 220px;
+  margin-top: 36px;
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(130deg, #233243, var(--desk));
+  box-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 -24px 58px rgba(0, 0, 0, 0.42) inset;
+  position: relative;
+}
+
+.keyboard {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 34px;
+  width: min(620px, 78vw);
+  height: 82px;
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.1) 0,
+      rgba(255, 255, 255, 0.1) 12px,
+      rgba(255, 255, 255, 0.04) 12px,
+      rgba(255, 255, 255, 0.04) 19px
+    ),
+    linear-gradient(180deg, #31465d, #24384d);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.mousepad {
+  position: absolute;
+  right: clamp(1rem, 5vw, 4rem);
+  top: 26px;
+  width: min(185px, 30vw);
+  height: 100px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1f2e3e, #15212e);
+  opacity: 0.76;
 }
 
 .contact-panel {
@@ -340,18 +469,22 @@ body {
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .terminal-page {
-    padding: 0.6rem;
+    padding: 0.5rem;
+  }
+
+  .monitor-shell {
+    transform: none;
   }
 
   .terminal-window {
-    min-height: 92vh;
-    border-radius: 8px;
+    min-height: 83vh;
+    border-radius: 10px;
   }
 
   .terminal-output {
-    max-height: 68vh;
+    max-height: 64vh;
     font-size: 0.92rem;
   }
 
@@ -362,6 +495,17 @@ body {
 
   .prompt-label {
     font-size: 0.82rem;
+  }
+
+  .desk-surface {
+    height: 140px;
+    margin-top: 22px;
+  }
+
+  .keyboard,
+  .mousepad,
+  .monitor-stand {
+    display: none;
   }
 }
 

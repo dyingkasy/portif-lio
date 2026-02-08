@@ -231,55 +231,71 @@ export default function TerminalApp() {
 
   return (
     <main className="terminal-page">
-      <section
-        className={`terminal-window ${effects.matrix ? "is-matrix" : ""} ${
-          effects.hack ? "is-hack" : ""
-        }`}
-      >
-        <header className="terminal-header">
-          <div className="dots">
-            <span />
-            <span />
-            <span />
-          </div>
-          <p>{title}</p>
-        </header>
+      <div className="scene-glow scene-glow-left" />
+      <div className="scene-glow scene-glow-right" />
 
-        <OutputStream lines={lines} />
+      <section className="workstation" aria-label="Modern workstation">
+        <div className="monitor-shell">
+          <div className="monitor-notch" />
+          <div className="monitor-bezel">
+            <section
+              className={`terminal-window ${effects.matrix ? "is-matrix" : ""} ${
+                effects.hack ? "is-hack" : ""
+              }`}
+            >
+              <header className="terminal-header">
+                <div className="dots">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <p>{title}</p>
+              </header>
 
-        <PromptInput
-          inputValue={inputValue}
-          onInputValueChange={onInputChange}
-          onAutocomplete={handleAutocomplete}
-          onSubmit={async (value) => {
-            setInputValue("");
-            setSuggestions([]);
-            await runInput(value);
-          }}
-          history={history}
-          lang={lang}
-          disabled={isTyping}
-        />
+              <OutputStream lines={lines} />
 
-        {suggestions.length > 0 ? (
-          <div className="terminal-suggestions" aria-live="polite">
-            {suggestions.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={async () => {
+              <PromptInput
+                inputValue={inputValue}
+                onInputValueChange={onInputChange}
+                onAutocomplete={handleAutocomplete}
+                onSubmit={async (value) => {
                   setInputValue("");
                   setSuggestions([]);
-                  await runInput(item);
+                  await runInput(value);
                 }}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        ) : null}
+                history={history}
+                lang={lang}
+                disabled={isTyping}
+              />
 
-        <div ref={endRef} />
+              {suggestions.length > 0 ? (
+                <div className="terminal-suggestions" aria-live="polite">
+                  {suggestions.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={async () => {
+                        setInputValue("");
+                        setSuggestions([]);
+                        await runInput(item);
+                      }}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+
+              <div ref={endRef} />
+            </section>
+          </div>
+        </div>
+
+        <div className="monitor-stand" />
+        <div className="desk-surface">
+          <div className="keyboard" />
+          <div className="mousepad" />
+        </div>
       </section>
 
       {contactOpen ? (
