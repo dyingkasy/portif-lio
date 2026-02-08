@@ -114,6 +114,7 @@ export default function TerminalApp() {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [languageGateOpen, setLanguageGateOpen] = useState(true);
   const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -136,6 +137,14 @@ export default function TerminalApp() {
   const localProjects = useMemo(() => initialLocalProjects(lang), [lang]);
 
   const title = lang === "pt" ? "Terminal do Portifolio" : "Portfolio Terminal";
+
+  function applyLanguageChoice(nextLang: Lang) {
+    setLang(nextLang);
+    setLines(createBootLines(nextLang));
+    setInputValue("");
+    setSuggestions([]);
+    setLanguageGateOpen(false);
+  }
 
   async function streamLines(nextLines: Array<Omit<TerminalLine, "id">>) {
     setIsTyping(true);
@@ -284,19 +293,19 @@ export default function TerminalApp() {
 
               <OutputStream lines={lines} />
 
-              <PromptInput
-                inputValue={inputValue}
-                onInputValueChange={onInputChange}
+        <PromptInput
+          inputValue={inputValue}
+          onInputValueChange={onInputChange}
                 onAutocomplete={handleAutocomplete}
                 onSubmit={async (value) => {
                   setInputValue("");
                   setSuggestions([]);
                   await runInput(value);
-                }}
-                history={history}
-                lang={lang}
-                disabled={isTyping}
-              />
+          }}
+          history={history}
+          lang={lang}
+          disabled={isTyping || languageGateOpen}
+        />
 
               {suggestions.length > 0 ? (
                 <div className="terminal-suggestions" aria-live="polite">
@@ -328,6 +337,24 @@ export default function TerminalApp() {
           <div className="desk-mouse" />
         </div>
       </section>
+
+      {languageGateOpen ? (
+        <section className="language-gate" role="dialog" aria-modal="true" aria-label="Choose language">
+          <div className="language-card">
+            <p className="language-eyebrow">Welcome</p>
+            <h2>Choose your language</h2>
+            <p>Select how you want to explore this terminal portfolio.</p>
+            <div className="language-actions">
+              <button type="button" onClick={() => applyLanguageChoice("pt")}>
+                Portugues (BR)
+              </button>
+              <button type="button" onClick={() => applyLanguageChoice("en")}>
+                English (US)
+              </button>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {contactOpen ? (
         <ContactForm

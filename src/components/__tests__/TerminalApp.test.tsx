@@ -6,6 +6,8 @@ describe("TerminalApp", () => {
   it("executes story command and renders localized output", async () => {
     render(<TerminalApp />);
 
+    fireEvent.click(screen.getByRole("button", { name: "Portugues (BR)" }));
+
     const input = screen.getByPlaceholderText("digite um comando");
     fireEvent.change(input, { target: { value: "story" } });
     fireEvent.submit(input.closest("form")!);
