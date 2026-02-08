@@ -53,6 +53,22 @@ function longestCommonPrefix(values: string[]): string {
   return prefix;
 }
 
+function createBootLines(lang: Lang): TerminalLine[] {
+  const banner = [
+    "____   ___  ____  _____ _____ ___ _     ___ ___",
+    "|  _ \\ / _ \\|  _ \\|_   _|  ___|_ _| |   |_ _/ _ \\",
+    "| |_) | | | | |_) | | | | |_   | || |    | | | | |",
+    "|  __/| |_| |  _ <  | | |  _|  | || |___ | | |_| |",
+    "|_|    \\___/|_| \\_\\ |_| |_|   |___|_____|___\\___/"
+  ];
+
+  return [
+    ...banner.map((line) => createLine("system", line)),
+    createLine("system", translate(lang, "welcome")),
+    createLine("text", translate(lang, "hint"))
+  ];
+}
+
 export default function TerminalApp() {
   const [lang, setLang] = useState<Lang>(() => {
     const saved = localStorage.getItem("portfolio-lang");
@@ -62,11 +78,19 @@ export default function TerminalApp() {
     const saved = localStorage.getItem("portfolio-theme");
     return saved === "amber" ? "amber" : "green";
   });
-  const [lines, setLines] = useState<TerminalLine[]>(() => [
-    createLine("system", translate(lang, "welcome")),
-    createLine("text", translate(lang, "hint"))
-  ]);
-  const [history, setHistory] = useState<string[]>([]);
+  const [lines, setLines] = useState<TerminalLine[]>(() => createBootLines(lang));
+  const [history, setHistory] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem("portfolio-history");
+      if (!saved) {
+        return [];
+      }
+      const parsed = JSON.parse(saved) as string[];
+      return Array.isArray(parsed) ? parsed.slice(-80) : [];
+    } catch {
+      return [];
+    }
+  });
   const [contactOpen, setContactOpen] = useState(false);
   const [effects, setEffects] = useState<EffectState>({ matrix: false, hack: false });
   const [inputValue, setInputValue] = useState("");
@@ -76,6 +100,10 @@ export default function TerminalApp() {
   useEffect(() => {
     localStorage.setItem("portfolio-lang", lang);
   }, [lang]);
+
+  useEffect(() => {
+    localStorage.setItem("portfolio-history", JSON.stringify(history.slice(-80)));
+  }, [history]);
 
   useEffect(() => {
     localStorage.setItem("portfolio-theme", theme);

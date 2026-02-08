@@ -130,6 +130,14 @@ export const commandCatalog: CommandInfo[] = [
       pt: "Mostra mensagem easter egg",
       en: "Show easter egg message"
     }
+  },
+  {
+    name: "banner",
+    aliases: ["logo"],
+    description: {
+      pt: "Exibe o banner ASCII do portifolio",
+      en: "Print portfolio ASCII banner"
+    }
   }
 ];
 
@@ -350,6 +358,16 @@ export async function executeCommand(
 
     case "coffee": {
       return [line("text", lang === "pt" ? "Cafe detectado. Produtividade +25%." : "Coffee detected. Productivity +25%.")];
+    }
+
+    case "banner": {
+      return [
+        line("system", "____   ___  ____  _____ _____ ___ _     ___ ___"),
+        line("system", "|  _ \\ / _ \\|  _ \\|_   _|  ___|_ _| |   |_ _/ _ \\"),
+        line("system", "| |_) | | | | |_) | | | | |_   | || |    | | | | |"),
+        line("system", "|  __/| |_| |  _ <  | | |  _|  | || |___ | | |_| |"),
+        line("system", "|_|    \\___/|_| \\_\\ |_| |_|   |___|_____|___\\___/")
+      ];
     }
 
     default:
