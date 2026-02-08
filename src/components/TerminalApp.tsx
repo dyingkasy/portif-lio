@@ -322,6 +322,7 @@ export default function TerminalApp() {
           <div className="cityline" />
           <div className="curtains" />
         </div>
+        <div className="room-dust" />
         <div className="room-shelf">
           <span />
           <span />

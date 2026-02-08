@@ -137,6 +137,24 @@ body {
     radial-gradient(circle at 46% 34%, rgba(255, 227, 130, 0.24) 0 2px, transparent 3px),
     radial-gradient(circle at 72% 28%, rgba(255, 227, 130, 0.3) 0 2px, transparent 3px),
     radial-gradient(circle at 84% 44%, rgba(255, 227, 130, 0.22) 0 2px, transparent 3px);
+  animation: cityPulse 6.2s ease-in-out infinite;
+}
+
+.room-dust {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 30%, rgba(255, 255, 255, 0.06) 0 1px, transparent 2px),
+    radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.05) 0 1px, transparent 2px),
+    radial-gradient(circle at 56% 22%, rgba(255, 255, 255, 0.05) 0 1px, transparent 2px),
+    radial-gradient(circle at 74% 62%, rgba(255, 255, 255, 0.05) 0 1px, transparent 2px),
+    radial-gradient(circle at 86% 38%, rgba(255, 255, 255, 0.05) 0 1px, transparent 2px);
+  filter: blur(0.1px);
+  transform: translate3d(var(--p1x), var(--p1y), 0);
+  animation: dustDrift 10.5s ease-in-out infinite;
 }
 
 .room-shelf {
@@ -272,6 +290,35 @@ body {
   padding: 0.65rem;
   background: linear-gradient(180deg, #1a2129, #141b24);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  position: relative;
+}
+
+.monitor-bezel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  pointer-events: none;
+  background: radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.18), transparent 55%);
+  opacity: 0.35;
+  transform: translate3d(var(--p1xN), var(--p1yN), 0);
+}
+
+.monitor-bezel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, 0.08) 22%,
+    rgba(255, 255, 255, 0.02) 45%,
+    rgba(255, 255, 255, 0.0) 62%
+  );
+  opacity: 0.22;
+  mix-blend-mode: screen;
 }
 
 .terminal-window {
@@ -288,6 +335,21 @@ body {
   grid-template-rows: auto 1fr auto auto;
   position: relative;
   overflow: hidden;
+}
+
+.terminal-window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    transparent 14%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.02)
+  );
+  opacity: 0.35;
 }
 
 :root[data-theme="crt"] .terminal-window::before {
@@ -696,6 +758,36 @@ body {
   }
 }
 
+@keyframes cityPulse {
+  0% {
+    opacity: 0.55;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.62;
+  }
+  100% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes dustDrift {
+  0% {
+    opacity: 0.16;
+    transform: translate3d(var(--p1x), var(--p1y), 0) translateY(0px);
+  }
+  50% {
+    opacity: 0.28;
+    transform: translate3d(var(--p1x), var(--p1y), 0) translateY(-10px);
+  }
+  100% {
+    opacity: 0.16;
+    transform: translate3d(var(--p1x), var(--p1y), 0) translateY(0px);
+  }
+}
+
 @media (max-width: 900px) {
   .terminal-page {
     padding: 0.5rem;
@@ -757,6 +849,7 @@ body {
   .scene-glow-right,
   .room-window,
   .room-shelf,
+  .room-dust,
   .monitor-shell {
     transform: none !important;
   }
