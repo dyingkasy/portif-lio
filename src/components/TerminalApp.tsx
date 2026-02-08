@@ -76,7 +76,7 @@ export default function TerminalApp() {
   });
   const [theme, setTheme] = useState<ThemeName>(() => {
     const saved = localStorage.getItem("portfolio-theme");
-    return saved === "amber" ? "amber" : "green";
+    return saved === "amber" || saved === "crt" ? saved : "green";
   });
   const [lines, setLines] = useState<TerminalLine[]>(() => createBootLines(lang));
   const [history, setHistory] = useState<string[]>(() => {

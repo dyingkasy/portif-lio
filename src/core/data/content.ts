@@ -2,14 +2,14 @@
 
 export const portfolioContent: PortfolioContent = {
   profile: {
-    name: "dyingkasy",
+    name: "Igor",
     role: {
-      pt: "Desenvolvedor de Software",
-      en: "Software Developer"
+      pt: "Desenvolvedor Full-Stack",
+      en: "Full-Stack Developer"
     },
     summary: {
-      pt: "Construo soluções práticas, automatizadas e com foco em performance para web e sistemas de negócio.",
-      en: "I build practical, automated, high-performance solutions for web and business systems."
+      pt: "Tenho 18 anos e transformo ideias em produtos web completos, conectando frontend, backend e automações com foco em performance, usabilidade e resultado real.",
+      en: "I am 18 years old and I turn ideas into complete web products, connecting frontend, backend and automation with focus on performance, usability and real impact."
     },
     location: "Brazil"
   },
@@ -46,6 +46,8 @@ export const portfolioContent: PortfolioContent = {
   ],
   social: [
     { label: "GitHub", url: "https://github.com/dyingkasy" },
+    { label: "Instagram", url: "https://instagram.com/lg0r_n" },
+    { label: "Email", url: "mailto:dyingkasy@outlook.com" },
     { label: "Portfolio Repo", url: "https://github.com/dyingkasy/portif-lio" }
   ],
   featuredProjects: [

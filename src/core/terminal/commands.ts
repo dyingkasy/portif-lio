@@ -225,13 +225,13 @@ export async function executeCommand(
         line("system", t("whoamiTitle")),
         line("text", `${content.profile.name} | ${content.profile.role[lang]}`),
         line("text", content.profile.summary[lang]),
-        line("text", `Location: ${content.profile.location}`)
+        line("text", `${t("locationLabel")}: ${content.profile.location}`)
       ]);
     }
 
     case "skills": {
       return asLines([
-        line("system", lang === "pt" ? "Habilidades" : "Skills"),
+        line("system", t("skillsTitle")),
         ...content.skills.map((skill) => line("text", `- ${skill}`))
       ]);
     }
@@ -290,12 +290,12 @@ export async function executeCommand(
       const lines = [
         line("system", match.name),
         line("text", match.description),
-        line("text", `Stack: ${match.stack.join(", ") || "N/A"}`),
-        line("text", `URL: ${match.url}`)
+        line("text", `${t("stackLabel")}: ${match.stack.join(", ") || "N/A"}`),
+        line("text", `${t("urlLabel")}: ${match.url}`)
       ];
 
       if (match.stars !== undefined) {
-        lines.push(line("text", `Stars: ${match.stars}`));
+        lines.push(line("text", `${t("starsLabel")}: ${match.stars}`));
       }
 
       return lines;
@@ -317,8 +317,8 @@ export async function executeCommand(
       return [
         line("system", repo.name),
         line("text", repo.description),
-        line("text", `URL: ${repo.url}`),
-        line("text", `Stars: ${repo.stars ?? 0}`)
+        line("text", `${t("urlLabel")}: ${repo.url}`),
+        line("text", `${t("starsLabel")}: ${repo.stars ?? 0}`)
       ];
     }
 
@@ -350,7 +350,7 @@ export async function executeCommand(
       const validThemes: ThemeName[] = ["green", "amber", "crt"];
 
       if (requested && !validThemes.includes(requested as ThemeName)) {
-        return [line("error", "Usage: theme <green|amber|crt>")];
+        return [line("error", t("usageTheme"))];
       }
 
       runtime.setTheme(requested ? (requested as ThemeName) : undefined);
@@ -359,20 +359,20 @@ export async function executeCommand(
 
     case "matrix": {
       runtime.triggerEffect("matrix");
-      return [line("system", "[effect] matrix enabled")];
+      return [line("system", t("matrixEnabled"))];
     }
 
     case "hack": {
       runtime.triggerEffect("hack");
       return [
-        line("system", "Initializing handshake..."),
-        line("text", "Bypassing firewall..."),
-        line("text", "Access denied. Just kidding.")
+        line("system", t("hackLine1")),
+        line("text", t("hackLine2")),
+        line("text", t("hackLine3"))
       ];
     }
 
     case "coffee": {
-      return [line("text", lang === "pt" ? "Cafe detectado. Produtividade +25%." : "Coffee detected. Productivity +25%.")];
+      return [line("text", t("coffeeMessage"))];
     }
 
     case "banner": {
@@ -386,19 +386,12 @@ export async function executeCommand(
     }
 
     case "story": {
-      return lang === "pt"
-        ? [
-            line("system", "Jornada"),
-            line("text", "2024: comecei publicando projetos e automacoes no GitHub."),
-            line("text", "2025: foquei em sistemas para operacao, APIs e produtividade."),
-            line("text", "2026: construindo experiencias interativas e unicas para web.")
-          ]
-        : [
-            line("system", "Journey"),
-            line("text", "2024: I started publishing projects and automations on GitHub."),
-            line("text", "2025: I focused on systems for operations, APIs and productivity."),
-            line("text", "2026: building unique and interactive web experiences.")
-          ];
+      return [
+        line("system", t("journeyTitle")),
+        line("text", t("journeyLine1")),
+        line("text", t("journeyLine2")),
+        line("text", t("journeyLine3"))
+      ];
     }
 
     default:
