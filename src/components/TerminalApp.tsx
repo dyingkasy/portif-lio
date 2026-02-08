@@ -62,10 +62,28 @@ function createBootLines(lang: Lang): TerminalLine[] {
     "|_|    \\___/|_| \\_\\ |_| |_|   |___|_____|___\\___/"
   ];
 
+  const intro =
+    lang === "pt"
+      ? [
+          "Session: Igor | Full-Stack Developer | 18y",
+          "Ambiente carregado. Digite comandos para explorar meu trabalho.",
+          "Quick start: whoami | skills | projects | story | contact",
+          "Dica: use TAB para autocomplete e setas para histórico."
+        ]
+      : [
+          "Session: Igor | Full-Stack Developer | 18y",
+          "Environment loaded. Type commands to explore my work.",
+          "Quick start: whoami | skills | projects | story | contact",
+          "Tip: use TAB for autocomplete and arrows for history."
+        ];
+
   return [
     ...banner.map((line) => createLine("system", line)),
+    createLine("system", "------------------------------------------------------------"),
+    ...intro.map((line) => createLine("text", line)),
     createLine("system", translate(lang, "welcome")),
-    createLine("text", translate(lang, "hint"))
+    createLine("text", translate(lang, "hint")),
+    createLine("system", "------------------------------------------------------------")
   ];
 }
 
@@ -231,6 +249,18 @@ export default function TerminalApp() {
 
   return (
     <main className="terminal-page">
+      <div className="room-backdrop" aria-hidden="true">
+        <div className="room-window">
+          <div className="cityline" />
+        </div>
+        <div className="room-shelf">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="room-lamp" />
+      </div>
+
       <div className="scene-glow scene-glow-left" />
       <div className="scene-glow scene-glow-right" />
 
@@ -295,6 +325,7 @@ export default function TerminalApp() {
         <div className="desk-surface">
           <div className="keyboard" />
           <div className="mousepad" />
+          <div className="desk-mouse" />
         </div>
       </section>
 

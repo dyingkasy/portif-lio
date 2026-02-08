@@ -67,6 +67,121 @@ body {
   overflow: hidden;
 }
 
+.room-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.room-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(147, 165, 194, 0.18), transparent 28%),
+    linear-gradient(180deg, rgba(21, 33, 44, 0.28), transparent 46%),
+    linear-gradient(180deg, rgba(10, 15, 22, 0.22), rgba(7, 10, 16, 0.36));
+}
+
+.room-window {
+  position: absolute;
+  top: clamp(1rem, 4vh, 2.3rem);
+  right: clamp(1rem, 4vw, 2.8rem);
+  width: min(300px, 38vw);
+  height: min(220px, 30vh);
+  border-radius: 18px;
+  border: 1px solid rgba(220, 236, 255, 0.18);
+  background:
+    radial-gradient(circle at 68% 20%, rgba(135, 197, 255, 0.28), transparent 36%),
+    linear-gradient(180deg, rgba(36, 68, 96, 0.74), rgba(17, 32, 47, 0.94));
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  overflow: hidden;
+}
+
+.cityline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(12, 20, 29, 0.84) 0 16px,
+      rgba(18, 30, 43, 0.96) 16px 32px
+    );
+}
+
+.cityline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 7% 22%, rgba(255, 227, 130, 0.34) 0 2px, transparent 3px),
+    radial-gradient(circle at 30% 48%, rgba(255, 227, 130, 0.28) 0 2px, transparent 3px),
+    radial-gradient(circle at 46% 34%, rgba(255, 227, 130, 0.24) 0 2px, transparent 3px),
+    radial-gradient(circle at 72% 28%, rgba(255, 227, 130, 0.3) 0 2px, transparent 3px),
+    radial-gradient(circle at 84% 44%, rgba(255, 227, 130, 0.22) 0 2px, transparent 3px);
+}
+
+.room-shelf {
+  position: absolute;
+  left: clamp(1rem, 4vw, 2.8rem);
+  top: clamp(1.5rem, 6vh, 3rem);
+  width: min(280px, 35vw);
+  height: 18px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #3d4d5d, #2a3541);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.26);
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 0 10px 18px;
+}
+
+.room-shelf span {
+  width: 34px;
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(180deg, #7d8da3, #536173);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.28);
+}
+
+.room-shelf span:nth-child(1) {
+  height: 74px;
+}
+
+.room-shelf span:nth-child(2) {
+  height: 60px;
+  width: 26px;
+}
+
+.room-shelf span:nth-child(3) {
+  height: 48px;
+}
+
+.room-lamp {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(190, 209, 231, 0.46), transparent);
+}
+
+.room-lamp::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -20px;
+  width: 180px;
+  height: 90px;
+  border-radius: 0 0 100px 100px;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 232, 190, 0.32), transparent 68%);
+}
+
 .terminal-page::before {
   content: "";
   position: absolute;
@@ -367,6 +482,33 @@ body {
   opacity: 0.76;
 }
 
+.desk-mouse {
+  position: absolute;
+  right: clamp(2.2rem, 7vw, 5rem);
+  top: 44px;
+  width: 46px;
+  height: 68px;
+  border-radius: 26px 26px 30px 30px;
+  background:
+    linear-gradient(180deg, rgba(204, 222, 236, 0.86), rgba(142, 162, 176, 0.92)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 34%);
+  box-shadow:
+    0 9px 16px rgba(0, 0, 0, 0.36),
+    0 1px 0 rgba(255, 255, 255, 0.4) inset;
+}
+
+.desk-mouse::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 11px;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(36, 47, 58, 0.55);
+}
+
 .contact-panel {
   position: fixed;
   right: 1.2rem;
@@ -504,7 +646,11 @@ body {
 
   .keyboard,
   .mousepad,
-  .monitor-stand {
+  .desk-mouse,
+  .monitor-stand,
+  .room-shelf,
+  .room-window,
+  .room-lamp {
     display: none;
   }
 }
