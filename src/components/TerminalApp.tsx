@@ -6,7 +6,7 @@ import {
   listAutocompleteTargets
 } from "../core/terminal/commands";
 import type { Lang, ProjectView, TerminalLine, ThemeName } from "../types";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ContactForm from "../features/contact/ContactForm";
 import OutputStream from "./terminal/OutputStream";
 import PromptInput from "./terminal/PromptInput";
@@ -115,7 +115,6 @@ export default function TerminalApp() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [languageGateOpen, setLanguageGateOpen] = useState(true);
-  const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     localStorage.setItem("portfolio-lang", lang);
@@ -129,10 +128,6 @@ export default function TerminalApp() {
     localStorage.setItem("portfolio-theme", theme);
     document.documentElement.dataset.theme = theme;
   }, [theme]);
-
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [lines, contactOpen]);
 
   const localProjects = useMemo(() => initialLocalProjects(lang), [lang]);
 
@@ -324,8 +319,6 @@ export default function TerminalApp() {
                   ))}
                 </div>
               ) : null}
-
-              <div ref={endRef} />
             </section>
           </div>
         </div>
