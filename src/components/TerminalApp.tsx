@@ -24,6 +24,7 @@ function initialLocalProjects(lang: Lang): ProjectView[] {
     id: project.slug,
     name: project.name,
     description: project.description[lang],
+    highlights: project.highlights ? project.highlights[lang] : undefined,
     stack: project.stack,
     url: project.url,
     liveUrl: project.liveUrl,

@@ -215,6 +215,14 @@ export default function ProjectsWindow({ lang, localProjects, initialQuery, onCl
               <p className="details-title">{selected.name}</p>
               <p className="details-desc">{selected.description}</p>
 
+              {selected.highlights && selected.highlights.length > 0 ? (
+                <ul className="details-highlights">
+                  {selected.highlights.slice(0, 8).map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              ) : null}
+
               <div className="details-tags">
                 {selected.stack.slice(0, 6).map((tag) => (
                   <span key={tag} className="tag">

@@ -976,3 +976,13 @@ body {
     border-bottom: 1px solid rgba(155, 203, 255, 0.12);
   }
 }
+.details-highlights {
+  margin: 0.7rem 0 0;
+  padding-left: 1.1rem;
+  color: rgba(207, 230, 255, 0.82);
+  line-height: 1.55;
+}
+
+.details-highlights li {
+  margin: 0.15rem 0;
+}

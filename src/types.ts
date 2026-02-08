@@ -14,6 +14,7 @@ export interface FeaturedProject {
   slug: string;
   name: string;
   description: Record<Lang, string>;
+  highlights?: Record<Lang, string[]>;
   stack: string[];
   url: string;
   liveUrl?: string;
@@ -44,6 +45,7 @@ export interface ProjectView {
   id: string;
   name: string;
   description: string;
+  highlights?: string[];
   stack: string[];
   url: string;
   source: "local" | "github";
