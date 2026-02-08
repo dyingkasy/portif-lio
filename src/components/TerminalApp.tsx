@@ -70,13 +70,13 @@ function createBootLines(lang: Lang): TerminalLine[] {
       ? [
           "Session: Igor | Full-Stack Developer | 18y",
           "Ambiente carregado. Digite comandos para explorar meu trabalho.",
-          "Quick start: whoami | skills | projects | story | contact",
+          "Quick start: whoami | skills | projects | story | tour | contact",
           "Dica: use TAB para autocomplete e setas para histórico."
         ]
       : [
           "Session: Igor | Full-Stack Developer | 18y",
           "Environment loaded. Type commands to explore my work.",
-          "Quick start: whoami | skills | projects | story | contact",
+          "Quick start: whoami | skills | projects | story | tour | contact",
           "Tip: use TAB for autocomplete and arrows for history."
         ];
 
@@ -120,6 +120,7 @@ export default function TerminalApp() {
   const [languageGateOpen, setLanguageGateOpen] = useState(true);
   const [projectsOpen, setProjectsOpen] = useState(false);
   const [projectsQuery, setProjectsQuery] = useState<string | undefined>(undefined);
+  const [tourRunning, setTourRunning] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("portfolio-lang", lang);
@@ -133,6 +134,44 @@ export default function TerminalApp() {
     localStorage.setItem("portfolio-theme", theme);
     document.documentElement.dataset.theme = theme;
   }, [theme]);
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (media?.matches) {
+      return;
+    }
+
+      const onMove = (event: MouseEvent) => {
+      const dx = event.clientX / Math.max(1, window.innerWidth) - 0.5;
+      const dy = event.clientY / Math.max(1, window.innerHeight) - 0.5;
+
+      const p1x = dx * 6;
+      const p1y = dy * 4;
+      const p2x = dx * 12;
+      const p2y = dy * 8;
+      const p3x = dx * 18;
+      const p3y = dy * 12;
+
+      const root = document.documentElement.style;
+      root.setProperty("--p1x", `${p1x}px`);
+      root.setProperty("--p1y", `${p1y}px`);
+      root.setProperty("--p1xN", `${-p1x}px`);
+      root.setProperty("--p1yN", `${-p1y}px`);
+      root.setProperty("--p2x", `${p2x}px`);
+      root.setProperty("--p2y", `${p2y}px`);
+      root.setProperty("--p2xN", `${-p2x}px`);
+      root.setProperty("--p2yN", `${-p2y}px`);
+      root.setProperty("--p3x", `${p3x}px`);
+      root.setProperty("--p3y", `${p3y}px`);
+      root.setProperty("--p3xN", `${-p3x}px`);
+      root.setProperty("--p3yN", `${-p3y}px`);
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+    };
+  }, []);
 
   const localProjects = useMemo(() => initialLocalProjects(lang), [lang]);
 
@@ -205,6 +244,22 @@ export default function TerminalApp() {
       openProjects: (query) => {
         setProjectsOpen(true);
         setProjectsQuery(query);
+      },
+      runTour: () => {
+        void (async () => {
+          if (tourRunning) return;
+          setTourRunning(true);
+
+          const sleep = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
+          const steps = ["whoami", "skills", "projects", "project app.menufaz", "theme crt", "story", "contact"];
+
+          for (const step of steps) {
+            await sleep(260);
+            await runInput(step);
+          }
+
+          setTourRunning(false);
+        })();
       },
       triggerEffect: (effect) => {
         setEffects((prev) => ({ ...prev, [effect]: true }));
@@ -308,7 +363,7 @@ export default function TerminalApp() {
           }}
           history={history}
           lang={lang}
-          disabled={isTyping || languageGateOpen}
+          disabled={isTyping || languageGateOpen || tourRunning}
         />
 
               {suggestions.length > 0 ? (

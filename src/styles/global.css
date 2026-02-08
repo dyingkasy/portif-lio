@@ -12,6 +12,18 @@
   --shell-dark: #95a4b2;
   --desk: #172430;
   --font-main: "JetBrains Mono", "Cascadia Code", "Fira Code", monospace;
+  --p1x: 0px;
+  --p1y: 0px;
+  --p1xN: 0px;
+  --p1yN: 0px;
+  --p2x: 0px;
+  --p2y: 0px;
+  --p2xN: 0px;
+  --p2yN: 0px;
+  --p3x: 0px;
+  --p3y: 0px;
+  --p3xN: 0px;
+  --p3yN: 0px;
 }
 
 :root[data-theme="amber"] {
@@ -98,6 +110,7 @@ body {
     0 10px 28px rgba(0, 0, 0, 0.34),
     0 0 0 1px rgba(255, 255, 255, 0.12) inset;
   overflow: hidden;
+  transform: translate3d(var(--p2x), var(--p2y), 0);
 }
 
 .cityline {
@@ -139,6 +152,7 @@ body {
   align-items: flex-end;
   gap: 10px;
   padding: 0 10px 18px;
+  transform: translate3d(var(--p2xN), var(--p2y), 0);
 }
 
 .room-shelf span {
@@ -212,12 +226,14 @@ body {
   left: -16vw;
   top: -18vw;
   background: radial-gradient(circle, rgba(95, 140, 255, 0.46), transparent 62%);
+  transform: translate3d(var(--p3x), var(--p3y), 0);
 }
 
 .scene-glow-right {
   right: -18vw;
   bottom: -20vw;
   background: radial-gradient(circle, rgba(47, 255, 159, 0.36), transparent 62%);
+  transform: translate3d(var(--p3xN), var(--p3yN), 0);
 }
 
 .workstation {
@@ -237,7 +253,7 @@ body {
     0 34px 70px rgba(0, 0, 0, 0.52),
     0 1px 0 rgba(255, 255, 255, 0.7) inset;
   position: relative;
-  transform: rotateX(3deg);
+  transform: translate3d(var(--p1x), var(--p1y), 0) rotateX(3deg);
 }
 
 .monitor-notch {
@@ -735,6 +751,14 @@ body {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+
+  .scene-glow-left,
+  .scene-glow-right,
+  .room-window,
+  .room-shelf,
+  .monitor-shell {
+    transform: none !important;
   }
 }
 .projects-window {

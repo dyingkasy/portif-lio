@@ -146,6 +146,14 @@ export const commandCatalog: CommandInfo[] = [
       pt: "Mostra narrativa curta da jornada",
       en: "Show a short journey narrative"
     }
+  },
+  {
+    name: "tour",
+    aliases: ["demo", "guia"],
+    description: {
+      pt: "Roda uma demo guiada automatica",
+      en: "Run an automated guided demo"
+    }
   }
 ];
 
@@ -158,6 +166,7 @@ interface CommandRuntime {
   clearOutput: () => void;
   openContact: () => void;
   openProjects: (query?: string) => void;
+  runTour: () => void;
   triggerEffect: (effect: "matrix" | "hack") => void;
   localProjects: ProjectView[];
 }
@@ -378,6 +387,14 @@ export async function executeCommand(
         line("text", t("journeyLine1")),
         line("text", t("journeyLine2")),
         line("text", t("journeyLine3"))
+      ];
+    }
+
+    case "tour": {
+      runtime.runTour();
+      return [
+        line("system", lang === "pt" ? "Iniciando tour..." : "Starting tour..."),
+        line("text", lang === "pt" ? "Dica: voce pode continuar digitando depois." : "Tip: you can keep typing afterwards.")
       ];
     }
 
