@@ -4,6 +4,7 @@ interface GitHubRepo {
   name: string;
   description: string | null;
   html_url: string;
+  homepage?: string | null;
   stargazers_count: number;
   language: string | null;
   topics?: string[];
@@ -19,6 +20,8 @@ const featured = (import.meta.env.VITE_GITHUB_FEATURED_REPOS || "")
 const defaultFeatured = ["app.menufaz", "qualifaz-entragas", "fichamovel"];
 
 export function normalizeRepo(repo: GitHubRepo): ProjectView {
+  const homepage = (repo.homepage || "").trim();
+
   return {
     id: repo.name.toLowerCase(),
     name: repo.name,
@@ -27,6 +30,7 @@ export function normalizeRepo(repo: GitHubRepo): ProjectView {
       (value): value is string => Boolean(value)
     ),
     url: repo.html_url,
+    liveUrl: homepage ? homepage : undefined,
     source: "github",
     stars: repo.stargazers_count,
     updatedAt: repo.updated_at

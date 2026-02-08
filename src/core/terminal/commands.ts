@@ -157,6 +157,7 @@ interface CommandRuntime {
   setTheme: (theme?: ThemeName) => void;
   clearOutput: () => void;
   openContact: () => void;
+  openProjects: (query?: string) => void;
   triggerEffect: (effect: "matrix" | "hack") => void;
   localProjects: ProjectView[];
 }
@@ -250,35 +251,29 @@ export async function executeCommand(
     }
 
     case "projects": {
-      const remote = await fetchGitHubProjects();
-      const projects = dedupeProjects(runtime.localProjects, remote);
+      runtime.openProjects();
 
-      if (projects.length === 0) {
-        return [line("error", t("emptyProjects"))];
-      }
-
-      const lines = [line("system", t("projectsTitle"))];
-      projects.forEach((project, index) => {
-        lines.push(
-          line(
-            "text",
-            `${index + 1}. ${project.name} (${project.source}) - ${project.description}`
-          )
-        );
-      });
-
-      return lines;
+      return [
+        line("system", lang === "pt" ? "Janela de projetos aberta." : "Projects window opened."),
+        line("text", lang === "pt" ? "Clique em um projeto para ver detalhes." : "Click a project to see details.")
+      ];
     }
 
     case "project": {
-      const query = parsed.args.join(" ").trim().toLowerCase();
-
-      if (!query) {
-        return [line("error", t("usageProject"))];
-      }
-
       const remote = await fetchGitHubProjects();
       const projects = dedupeProjects(runtime.localProjects, remote);
+
+      const query = parsed.args.join(" ").trim().toLowerCase();
+
+      runtime.openProjects(query || undefined);
+
+      if (!query) {
+        return [
+          line("system", lang === "pt" ? "Janela de projetos aberta." : "Projects window opened."),
+          line("text", lang === "pt" ? "Use: project <nome> para selecionar." : "Use: project <name> to select.")
+        ];
+      }
+
       const match = projects.find(
         (project) => project.id.toLowerCase() === query || project.name.toLowerCase() === query
       );
@@ -287,18 +282,10 @@ export async function executeCommand(
         return [line("error", t("emptyProjects"))];
       }
 
-      const lines = [
-        line("system", match.name),
-        line("text", match.description),
-        line("text", `${t("stackLabel")}: ${match.stack.join(", ") || "N/A"}`),
-        line("text", `${t("urlLabel")}: ${match.url}`)
+      return [
+        line("system", lang === "pt" ? "Selecionado no painel:" : "Selected in panel:"),
+        line("text", match.name)
       ];
-
-      if (match.stars !== undefined) {
-        lines.push(line("text", `${t("starsLabel")}: ${match.stars}`));
-      }
-
-      return lines;
     }
 
     case "repo": {

@@ -16,6 +16,7 @@ export interface FeaturedProject {
   description: Record<Lang, string>;
   stack: string[];
   url: string;
+  liveUrl?: string;
 }
 
 export interface PortfolioContent {
@@ -46,6 +47,7 @@ export interface ProjectView {
   stack: string[];
   url: string;
   source: "local" | "github";
+  liveUrl?: string;
   stars?: number;
   updatedAt?: string;
 }

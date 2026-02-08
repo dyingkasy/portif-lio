@@ -8,6 +8,7 @@ import {
 import type { Lang, ProjectView, TerminalLine, ThemeName } from "../types";
 import { useEffect, useMemo, useState } from "react";
 import ContactForm from "../features/contact/ContactForm";
+import ProjectsWindow from "../features/projects/ProjectsWindow";
 import OutputStream from "./terminal/OutputStream";
 import PromptInput from "./terminal/PromptInput";
 
@@ -25,6 +26,7 @@ function initialLocalProjects(lang: Lang): ProjectView[] {
     description: project.description[lang],
     stack: project.stack,
     url: project.url,
+    liveUrl: project.liveUrl,
     source: "local"
   }));
 }
@@ -115,6 +117,8 @@ export default function TerminalApp() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [languageGateOpen, setLanguageGateOpen] = useState(true);
+  const [projectsOpen, setProjectsOpen] = useState(false);
+  const [projectsQuery, setProjectsQuery] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     localStorage.setItem("portfolio-lang", lang);
@@ -196,6 +200,10 @@ export default function TerminalApp() {
       },
       openContact: () => {
         setContactOpen(true);
+      },
+      openProjects: (query) => {
+        setProjectsOpen(true);
+        setProjectsQuery(query);
       },
       triggerEffect: (effect) => {
         setEffects((prev) => ({ ...prev, [effect]: true }));
@@ -354,6 +362,18 @@ export default function TerminalApp() {
           lang={lang}
           dict={dictionaries[lang]}
           onClose={() => setContactOpen(false)}
+        />
+      ) : null}
+
+      {projectsOpen ? (
+        <ProjectsWindow
+          lang={lang}
+          localProjects={localProjects}
+          initialQuery={projectsQuery}
+          onClose={() => {
+            setProjectsOpen(false);
+            setProjectsQuery(undefined);
+          }}
         />
       ) : null}
     </main>
