@@ -320,6 +320,7 @@ export default function TerminalApp() {
       <div className="room-backdrop" aria-hidden="true">
         <div className="room-window">
           <div className="cityline" />
+          <div className="curtains" />
         </div>
         <div className="room-shelf">
           <span />
@@ -327,6 +328,11 @@ export default function TerminalApp() {
           <span />
         </div>
         <div className="room-lamp" />
+        <div className="room-poster" />
+        <div className="room-led-strip" />
+        <div className="room-plant" />
+        <div className="room-chair" />
+        <div className="room-rug" />
       </div>
 
       <div className="scene-glow scene-glow-left" />
