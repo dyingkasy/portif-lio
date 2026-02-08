@@ -43,8 +43,9 @@ Para GitHub Pages em repositório de projeto, o workflow já injeta `VITE_BASE_P
 - `whoami`, `skills`, `experience`
 - `projects`, `project <slug|nome>`, `repo <nome-repo>`
 - `social`, `contact`
-- `lang <pt|en>`, `theme`
+- `lang <pt|en>`, `theme <green|amber|crt>`
 - `matrix`, `hack`, `coffee`
+- `banner`, `story`
 
 ## Deploy
 

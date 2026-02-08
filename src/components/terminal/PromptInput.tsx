@@ -8,6 +8,7 @@ interface PromptInputProps {
   onSubmit: (value: string) => Promise<void>;
   history: string[];
   lang: Lang;
+  disabled: boolean;
 }
 
 export default function PromptInput({
@@ -16,7 +17,8 @@ export default function PromptInput({
   onAutocomplete,
   onSubmit,
   history,
-  lang
+  lang,
+  disabled
 }: PromptInputProps) {
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
 
@@ -38,6 +40,7 @@ export default function PromptInput({
       <input
         id="terminal-input"
         autoFocus
+        disabled={disabled}
         value={inputValue}
         onChange={(event) => onInputValueChange(event.target.value)}
         onKeyDown={(event) => {

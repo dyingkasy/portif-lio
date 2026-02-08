@@ -1,6 +1,6 @@
 ﻿export type Lang = "pt" | "en";
 
-export type ThemeName = "green" | "amber";
+export type ThemeName = "green" | "amber" | "crt";
 
 export type LineKind = "text" | "error" | "system" | "command";
 

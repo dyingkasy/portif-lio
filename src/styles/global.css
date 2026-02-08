@@ -23,6 +23,18 @@
   --glow: rgba(255, 179, 71, 0.45);
 }
 
+:root[data-theme="crt"] {
+  --bg: #010507;
+  --panel: #031017;
+  --line: #123343;
+  --text: #7de8ff;
+  --muted: #57bed4;
+  --danger: #ff8fa5;
+  --command: #d3f8ff;
+  --accent: #59e8ff;
+  --glow: rgba(89, 232, 255, 0.5);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -82,6 +94,14 @@ body {
   grid-template-rows: auto 1fr auto auto;
   position: relative;
   overflow: hidden;
+}
+
+:root[data-theme="crt"] .terminal-window::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.45) 100%);
 }
 
 .terminal-window.is-matrix::after {
@@ -189,6 +209,10 @@ body {
 
 .terminal-prompt input::placeholder {
   color: rgba(136, 255, 191, 0.5);
+}
+
+.terminal-prompt input:disabled {
+  opacity: 0.65;
 }
 
 .terminal-suggestions {

@@ -103,8 +103,8 @@ export const commandCatalog: CommandInfo[] = [
     name: "theme",
     aliases: ["tema"],
     description: {
-      pt: "Alterna tema verde/amber",
-      en: "Toggle green/amber theme"
+      pt: "Tema: green, amber ou crt",
+      en: "Theme: green, amber or crt"
     }
   },
   {
@@ -138,6 +138,14 @@ export const commandCatalog: CommandInfo[] = [
       pt: "Exibe o banner ASCII do portifolio",
       en: "Print portfolio ASCII banner"
     }
+  },
+  {
+    name: "story",
+    aliases: ["historia"],
+    description: {
+      pt: "Mostra narrativa curta da jornada",
+      en: "Show a short journey narrative"
+    }
   }
 ];
 
@@ -146,7 +154,7 @@ interface CommandRuntime {
   theme: ThemeName;
   content: PortfolioContent;
   setLang: (lang: Lang) => void;
-  toggleTheme: () => void;
+  setTheme: (theme?: ThemeName) => void;
   clearOutput: () => void;
   openContact: () => void;
   triggerEffect: (effect: "matrix" | "hack") => void;
@@ -338,7 +346,14 @@ export async function executeCommand(
     }
 
     case "theme": {
-      runtime.toggleTheme();
+      const requested = (parsed.args[0] || "").trim().toLowerCase();
+      const validThemes: ThemeName[] = ["green", "amber", "crt"];
+
+      if (requested && !validThemes.includes(requested as ThemeName)) {
+        return [line("error", "Usage: theme <green|amber|crt>")];
+      }
+
+      runtime.setTheme(requested ? (requested as ThemeName) : undefined);
       return [line("system", t("themeChanged"))];
     }
 
@@ -368,6 +383,22 @@ export async function executeCommand(
         line("system", "|  __/| |_| |  _ <  | | |  _|  | || |___ | | |_| |"),
         line("system", "|_|    \\___/|_| \\_\\ |_| |_|   |___|_____|___\\___/")
       ];
+    }
+
+    case "story": {
+      return lang === "pt"
+        ? [
+            line("system", "Jornada"),
+            line("text", "2024: comecei publicando projetos e automacoes no GitHub."),
+            line("text", "2025: foquei em sistemas para operacao, APIs e produtividade."),
+            line("text", "2026: construindo experiencias interativas e unicas para web.")
+          ]
+        : [
+            line("system", "Journey"),
+            line("text", "2024: I started publishing projects and automations on GitHub."),
+            line("text", "2025: I focused on systems for operations, APIs and productivity."),
+            line("text", "2026: building unique and interactive web experiences.")
+          ];
     }
 
     default:

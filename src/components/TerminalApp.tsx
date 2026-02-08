@@ -95,6 +95,7 @@ export default function TerminalApp() {
   const [effects, setEffects] = useState<EffectState>({ matrix: false, hack: false });
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isTyping, setIsTyping] = useState(false);
   const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -118,6 +119,21 @@ export default function TerminalApp() {
 
   const title = lang === "pt" ? "Terminal do Portifolio" : "Portfolio Terminal";
 
+  async function streamLines(nextLines: Array<Omit<TerminalLine, "id">>) {
+    setIsTyping(true);
+
+    for (const nextLine of nextLines) {
+      await new Promise<void>((resolve) => {
+        window.setTimeout(() => {
+          setLines((prev) => [...prev, createLine(nextLine.kind, nextLine.text)]);
+          resolve();
+        }, 38);
+      });
+    }
+
+    setIsTyping(false);
+  }
+
   async function runInput(rawInput: string) {
     const trimmed = rawInput.trim();
 
@@ -135,8 +151,23 @@ export default function TerminalApp() {
       setLang: (nextLang) => {
         setLang(nextLang);
       },
-      toggleTheme: () => {
-        setTheme((prev) => (prev === "green" ? "amber" : "green"));
+      setTheme: (nextTheme) => {
+        if (nextTheme) {
+          setTheme(nextTheme);
+          return;
+        }
+
+        setTheme((prev) => {
+          if (prev === "green") {
+            return "amber";
+          }
+
+          if (prev === "amber") {
+            return "crt";
+          }
+
+          return "green";
+        });
       },
       clearOutput: () => {
         setLines([]);
@@ -154,10 +185,7 @@ export default function TerminalApp() {
     });
 
     if (rendered.length > 0) {
-      setLines((prev) => [
-        ...prev,
-        ...rendered.map((line) => createLine(line.kind, line.text))
-      ]);
+      await streamLines(rendered);
     }
   }
 
@@ -230,6 +258,7 @@ export default function TerminalApp() {
           }}
           history={history}
           lang={lang}
+          disabled={isTyping}
         />
 
         {suggestions.length > 0 ? (
