@@ -129,6 +129,48 @@ export const portfolioContent: PortfolioContent = {
       },
       stack: ["Flutter", "Dart", "Provider", "Hive", "Mobile Scanner", "PDF/Printing"],
       url: "https://github.com/dyingkasy/FichaMovel"
+    },
+    {
+      slug: "barbershop",
+      name: "Barbershop",
+      description: {
+        pt: "Sistema completo para barbearia com agendamento online e painel admin para gerir agenda, servicos, horarios de funcionamento e financeiro (receitas/despesas) com graficos.",
+        en: "A full barbershop system with online booking and an admin panel to manage agenda, services, opening hours, and finances (income/expenses) with charts."
+      },
+      highlights: {
+        pt: [
+          "Next.js (App Router) com Server Actions para agendamentos, servicos e financeiro.",
+          "Autenticacao com NextAuth (Credentials) e controle de acesso por role (ADMIN/CLIENT) via middleware.",
+          "Geracao de horarios disponiveis por dia (WorkDayConfig) + intervalo global e deteccao de conflitos com agendamentos existentes.",
+          "Painel admin com KPIs do dia, agenda navegavel e gestao de status (confirmado/cancelado/finalizado).",
+          "Atalhos de operacao: integracao com WhatsApp e links de Maps via configuracoes publicas.",
+          "Financeiro com despesas, calculo de lucro e visualizacao em grafico (Recharts).",
+          "Persistencia com Prisma + PostgreSQL e infraestrutura com Docker Compose (dev/prod).",
+          "Hero 3D (tesoura) com React Three Fiber + drei para dar identidade visual."
+        ],
+        en: [
+          "Next.js (App Router) with Server Actions for booking, services, and financial operations.",
+          "Authentication with NextAuth (Credentials) and role-based access (ADMIN/CLIENT) enforced by middleware.",
+          "Time-slot generation per weekday (WorkDayConfig) + global interval with collision detection against existing appointments.",
+          "Admin panel with daily KPIs, navigable agenda and status management (confirmed/canceled/completed).",
+          "Ops shortcuts: WhatsApp integration and Maps links via public settings.",
+          "Finance module with expenses, profit calculation, and chart visualization (Recharts).",
+          "Prisma + PostgreSQL persistence and Docker Compose infra (dev/prod).",
+          "3D hero (scissors) via React Three Fiber + drei for visual identity."
+        ]
+      },
+      stack: [
+        "Next.js",
+        "TypeScript",
+        "NextAuth",
+        "Prisma",
+        "PostgreSQL",
+        "Tailwind",
+        "Framer Motion",
+        "Recharts",
+        "R3F/Three.js"
+      ],
+      url: "https://github.com/dyingkasy/Barbershop"
     }
   ]
 };
